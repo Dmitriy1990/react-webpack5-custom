@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
   mode: "production",
@@ -11,16 +12,21 @@ module.exports = {
     clean: true,
     assetModuleFilename: "images/[hash][ext][query]",
   },
+  devtool: "nosources-source-map",
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
+  },
   plugins: [
     new HtmlWebPackPlugin({
       template: "./public/index.html",
     }),
     new MiniCssExtractPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
   ],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
